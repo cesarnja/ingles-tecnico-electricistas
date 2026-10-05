@@ -23,8 +23,15 @@ La app es una **PWA** (Progressive Web App): se puede instalar en el teléfono c
 2. Si Windows pregunta por el Firewall, elige **"Permitir acceso"** (redes privadas).
 3. En el teléfono, abre esa dirección en Chrome. *Requiere la computadora encendida.*
 
-**B. Instalada de verdad, con funcionamiento sin internet (recomendada):**
-La app necesita estar una vez en una dirección segura (https). La forma gratuita y permanente es **GitHub Pages**. Una vez publicada: en el teléfono abres la dirección en Chrome → menú ⋮ → **"Instalar aplicación"** (o "Agregar a pantalla de inicio"). Desde entonces la app vive en tu teléfono, con icono propio, **sin internet** y sin depender de la computadora. Las mejoras que hagas en la PC llegan solas al teléfono con un `git push`.
+**B. Instalada en el teléfono, sin internet (recomendada) — YA DISPONIBLE:**
+
+### 👉 https://cesarnja.github.io/ingles-tecnico-electricistas/
+
+1. Abre esa dirección en **Chrome** en tu teléfono.
+2. Menú **⋮** → **"Instalar aplicación"** (o "Agregar a pantalla de inicio").
+3. Listo: la app queda con icono propio, a pantalla completa, y **funciona sin internet**.
+
+Tu progreso se guarda en el teléfono. Las mejoras que se hagan en la computadora llegan solas con un `git push`.
 
 **C. Archivo único por WhatsApp o Drive (emergencia):**
 Manda `InglesTecnico-1archivo.html` a tu teléfono (WhatsApp contigo mismo, correo o Drive), descárgalo y ábrelo con Chrome. Todo funciona sin internet, pero sin icono de app, y si vuelves a descargar el archivo el progreso empieza de cero.
