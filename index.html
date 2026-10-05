@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Inglés Técnico para Electricistas — De Ayudante a Foreman</title>
+  <meta name="description" content="Aprende inglés técnico de electricista: herramientas, seguridad, materiales, dispositivos y frases de obra. Español → English con audio y exámenes.">
+  <meta name="theme-color" content="#0f1b2d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Inglés Técnico">
+  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="icon" href="icons/favicon-48.png">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand" onclick="location.hash='#/home'">
+      <div class="bolt">⚡</div>
+      <h1>Inglés Técnico · Electricista
+        <small>De Ayudante a Foreman · Español → English</small>
+      </h1>
+    </div>
+    <div class="spacer"></div>
+    <div class="progress-chip" id="globalProgress" title="Progreso total del curso">
+      <span>Progreso</span>
+      <div class="bar"><span id="globalProgressBar" style="width:0%"></span></div>
+      <b id="globalProgressPct">0%</b>
+    </div>
+    <button class="nav-btn" id="navHome" onclick="location.hash='#/home'">🏠 Inicio</button>
+    <button class="nav-btn" id="navDict" onclick="location.hash='#/dict'">📖 Diccionario</button>
+    <button class="nav-btn" onclick="openSettings()" title="Ajustes de voz">⚙️</button>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>
+    Herramienta educativa de vocabulario. Las referencias al NEC (NFPA 70®) citan números de artículo con explicación propia y no reproducen el texto del código.<br>
+    Verifica siempre la edición del NEC y las enmiendas locales vigentes en tu estado. La seguridad laboral se rige por OSHA y NFPA 70E.
+  </footer>
+
+  <!-- Modal de ajustes -->
+  <div class="modal-back" id="settingsModal">
+    <div class="modal">
+      <h3>⚙️ Ajustes de voz</h3>
+      <div class="field">
+        <label>Velocidad del botón 🔊 Inglés: <span id="rateLabel">0.9</span>×</label>
+        <input type="range" id="rateSlider" min="0.5" max="1.2" step="0.05" value="0.9">
+      </div>
+      <div class="field">
+        <div class="voices-info">
+          <b>🐢→🐇 Lento y normal:</b> ese botón no usa esta velocidad. Siempre repite la frase
+          <b>dos veces</b>: primero muy despacio (0.55×) para que distingas cada palabra, y luego a
+          velocidad real (1×) para acostumbrar tu oído a como hablan en la obra.
+          Escucha y <b>repite en voz alta</b> las dos veces: así se aprende a hablar.
+        </div>
+      </div>
+      <div class="voices-info" id="voicesInfo">Detectando voces del sistema…</div>
+      <div class="modal-actions">
+        <button class="btn red" onclick="resetProgress()">🗑️ Borrar progreso</button>
+        <button class="btn dark" onclick="closeSettings()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- El ?v= sube de número en cada actualización de contenido:
+       obliga al navegador y al teléfono a bajar la versión nueva. -->
+  <script src="js/icons.js?v=8"></script>
+  <script src="js/data.js?v=8"></script>
+  <script src="js/app.js?v=8"></script>
+  <script>
+    // Registrar el service worker (permite instalar la app y usarla sin internet).
+    // Solo funciona sobre http/https (no al abrir el archivo directamente).
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () { /* sin SW, la app sigue funcionando */ });
+      });
+    }
+  </script>
+</body>
+</html>

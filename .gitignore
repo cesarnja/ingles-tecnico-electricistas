@@ -1,0 +1,12 @@
+# Documentos personales — NO publicar
+Curriculum/
+*.docx
+*.pdf
+
+# Configuración local de Claude Code
+.claude/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
