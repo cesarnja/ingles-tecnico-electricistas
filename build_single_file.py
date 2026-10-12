@@ -22,8 +22,8 @@ css = read(os.path.join("css", "styles.css"))
 html = re.sub(r'<link rel="stylesheet" href="css/styles\.css(\?v=\d+)?">',
               lambda m: "<style>\n" + css + "\n</style>", html)
 
-# JS en linea (icons -> data -> app, en ese orden; acepta ?v=N)
-for js in ["icons.js", "data.js", "app.js"]:
+# JS en linea, en el mismo orden que index.html (acepta ?v=N)
+for js in ["icons.js", "data.js", "firebase-config.js", "cuentas.js", "app.js", "voz.js"]:
     code = read(os.path.join("js", js))
     code = code.replace("</script>", "<\\/script>")  # por seguridad si apareciera
     html = re.sub(r'<script src="js/%s(\?v=\d+)?"></script>' % re.escape(js),

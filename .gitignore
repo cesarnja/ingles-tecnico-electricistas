@@ -10,3 +10,6 @@ Curriculum/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Páginas de prueba local (no publicar)
+prueba-*.html

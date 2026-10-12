@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Inglés Técnico">
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=9">
   <link rel="icon" href="icons/favicon-48.png">
 </head>
 <body>
@@ -45,7 +45,11 @@
   <!-- Modal de ajustes -->
   <div class="modal-back" id="settingsModal">
     <div class="modal">
-      <h3>⚙️ Ajustes de voz</h3>
+      <h3>⚙️ Ajustes</h3>
+      <div class="cuenta-box" id="cuentaBox" hidden></div>
+      <div class="field">
+        <button class="btn green compartir" type="button" onclick="compartirApp()">📤 Compartir la app con alguien</button>
+      </div>
       <div class="field">
         <label>Velocidad del botón 🔊 Inglés: <span id="rateLabel">0.9</span>×</label>
         <input type="range" id="rateSlider" min="0.5" max="1.2" step="0.05" value="0.9">
@@ -56,6 +60,13 @@
           <b>dos veces</b>: primero muy despacio (0.55×) para que distingas cada palabra, y luego a
           velocidad real (1×) para acostumbrar tu oído a como hablan en la obra.
           Escucha y <b>repite en voz alta</b> las dos veces: así se aprende a hablar.
+        </div>
+      </div>
+      <div class="field mic-only">
+        <div class="voices-info">
+          <b>🎤 Pronunciar:</b> dices la palabra en inglés y la app te muestra en
+          <b style="color:#065f46">verde</b> lo que se entendió y en <b style="color:#991b1b">rojo</b> lo que no.
+          Necesita <b>internet</b> y permiso para usar el micrófono.
         </div>
       </div>
       <div class="voices-info" id="voicesInfo">Detectando voces del sistema…</div>
@@ -70,9 +81,12 @@
 
   <!-- El ?v= sube de número en cada actualización de contenido:
        obliga al navegador y al teléfono a bajar la versión nueva. -->
-  <script src="js/icons.js?v=8"></script>
-  <script src="js/data.js?v=8"></script>
-  <script src="js/app.js?v=8"></script>
+  <script src="js/icons.js?v=9"></script>
+  <script src="js/data.js?v=9"></script>
+  <script src="js/firebase-config.js?v=9"></script>
+  <script src="js/cuentas.js?v=9"></script>
+  <script src="js/app.js?v=9"></script>
+  <script src="js/voz.js?v=9"></script>
   <script>
     // Registrar el service worker (permite instalar la app y usarla sin internet).
     // Solo funciona sobre http/https (no al abrir el archivo directamente).

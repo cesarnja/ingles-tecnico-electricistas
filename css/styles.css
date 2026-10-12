@@ -809,3 +809,139 @@ body { overscroll-behavior-y: contain; }
   .audio-btn { padding: 0.5rem 0.95rem; }
   .btn { padding: 0.85rem 1.4rem; }
 }
+
+/* ---------------- Reconocimiento de voz (pronunciar) ---------------- */
+
+/* Si el navegador no reconoce voz, los botones de micrófono no aparecen */
+.no-mic .mic-only { display: none !important; }
+
+.audio-btn.mic {
+  background: var(--emerald-500);
+  border-color: var(--emerald-500);
+  color: #fff;
+}
+.audio-btn.mic:hover { background: #0d9668; border-color: #0d9668; }
+
+/* Mientras escucha: rojo con latido, para que se note que está grabando */
+.audio-btn.escuchando, .btn.escuchando, .mini-audio.escuchando {
+  background: var(--red-500) !important;
+  border-color: var(--red-500) !important;
+  color: #fff !important;
+  animation: latido 1s ease-in-out infinite;
+}
+.mini-audio.escuchando { border-radius: 999px; padding: 0 0.35rem; }
+@keyframes latido {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.mic-res {
+  display: none;
+  margin: 0 1.1rem 0.7rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+.mic-res.show { display: block; }
+.mic-res.listening { background: var(--sky-100); color: #075985; }
+.mic-res.good { background: var(--emerald-100); color: #065f46; }
+.mic-res.ok { background: var(--amber-100); color: #7c5205; }
+.mic-res.bad { background: var(--red-100); color: #991b1b; }
+.vocab-example .mic-res { margin: 0.5rem 0 0; }
+.mic-pct { float: right; font-weight: 800; font-size: 1rem; margin-left: 0.5rem; }
+.mic-oido { margin-top: 0.25rem; font-style: italic; }
+.mic-tip { margin-top: 0.2rem; font-size: 0.78rem; }
+.dicho-mal-demo { color: #991b1b; font-weight: 800; }
+
+/* Palabras después de hablar: verde se entendió, rojo no */
+.w.dicho-ok { background: var(--emerald-100); color: #065f46; box-shadow: inset 0 -2px 0 var(--emerald-500); }
+.w.dicho-mal { background: var(--red-100); color: #991b1b; box-shadow: inset 0 -2px 0 var(--red-500); }
+
+.badge.mic-badge { background: var(--emerald-100); color: #067a5b; font-size: 0.8rem; }
+
+/* Práctica de pronunciación, término por término */
+.speak-card .speak-es { color: var(--ink-soft); font-size: 1rem; text-align: center; margin-bottom: 0.3rem; }
+.speak-card .q-prompt, .speak-card .q-sub, .speak-card .q-kind { text-align: center; }
+.speak-audio { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin: 0.9rem 0 0.6rem; }
+.speak-mic { text-align: center; margin: 0.4rem 0; }
+.speak-card .mic-res { margin: 0.6rem 0 0; }
+.speak-ex { border-top: 1px dashed var(--line); margin-top: 1.1rem; padding-top: 0.9rem; font-size: 0.92rem; line-height: 1.5; }
+.speak-ex .en-ex { color: var(--navy-800); font-weight: 600; margin: 0.3rem 0; }
+.speak-ex .es-ex { color: var(--ink-soft); margin-bottom: 0.6rem; }
+.speak-nav { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.3rem; }
+
+/* ---------------- Cuentas de usuario ---------------- */
+
+.auth-card {
+  max-width: 440px;
+  margin: 1.2rem auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 1.6rem 1.4rem;
+}
+.auth-ico { font-size: 2.4rem; text-align: center; }
+.auth-card h2 { text-align: center; color: var(--navy-800); margin: 0.2rem 0 0.4rem; }
+.auth-lead { color: var(--ink-soft); font-size: 0.9rem; text-align: center; margin-bottom: 1.1rem; line-height: 1.45; }
+.auth-field { margin-bottom: 0.8rem; }
+.auth-field label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 0.3rem; }
+.auth-input { position: relative; }
+.auth-input input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.auth-input input:focus { outline: 2px solid var(--amber-400); background: #fff; }
+.auth-input input.con-ojo { padding-right: 2.8rem; }
+.auth-eye {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 1.15rem;
+  padding: 0.3rem 0.4rem;
+}
+.auth-hint { font-size: 0.78rem; color: var(--ink-soft); margin: -0.3rem 0 0.8rem; line-height: 1.4; }
+.auth-go { width: 100%; justify-content: center; margin-top: 0.4rem; }
+.auth-msg { min-height: 1.2rem; margin-top: 0.8rem; font-size: 0.9rem; text-align: center; color: #991b1b; font-weight: 600; }
+.auth-msg.info { color: var(--navy-700); }
+.auth-alt { text-align: center; margin-top: 0.9rem; font-size: 0.92rem; }
+.auth-alt a { color: var(--navy-700); font-weight: 800; }
+.auth-skip { text-align: center; margin-top: 0.7rem; font-size: 0.8rem; }
+.auth-skip a { color: var(--ink-soft); }
+
+.hola { font-weight: 800; color: var(--amber-400); margin-bottom: 0.3rem; font-size: 1.05rem; }
+
+/* La ventana de ajustes ahora tiene más cosas: que se pueda desplazar */
+.modal { max-height: 92vh; overflow-y: auto; }
+.btn.compartir { width: 100%; justify-content: center; }
+.cuenta-box {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  margin-bottom: 1rem;
+  background: var(--paper);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.cuenta-info code { background: #fff; padding: 0 0.3rem; border-radius: 4px; }
+.cuenta-estado { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.3rem; }
+.cuenta-acciones { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.cuenta-acciones .btn { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+.cuenta-clave { margin-top: 0.7rem; }
+.cuenta-clave input {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}

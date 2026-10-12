@@ -7,25 +7,61 @@
 /* ---------------- Estado y progreso ---------------- */
 
 const STORE_KEY = "electricEnglishProgress_v1";
+const APP_URL = "https://cesarnja.github.io/ingles-tecnico-electricistas/";
 
+/* Cada persona con cuenta guarda su avance aparte en el teléfono;
+   sin cuenta se usa la clave de siempre. */
+function claveDeUsuario(uid) { return uid ? STORE_KEY + "__u_" + uid : STORE_KEY; }
+
+let claveActiva = claveDeUsuario(typeof Cuentas !== "undefined" ? Cuentas.uid() : null);
 let state = loadState();
 
-function loadState() {
+function loadState(clave) {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
+    const raw = localStorage.getItem(clave || claveActiva);
     if (raw) {
       const s = JSON.parse(raw);
       s.passed = s.passed || {};
       s.tries = s.tries || {};
+      s.speech = s.speech || {};
       s.settings = Object.assign({ rate: 0.9 }, s.settings);
       return s;
     }
   } catch (e) { /* almacenamiento corrupto: empezar de cero */ }
-  return { passed: {}, tries: {}, settings: { rate: 0.9 } };
+  return { passed: {}, tries: {}, speech: {}, settings: { rate: 0.9 } };
 }
 
+function guardarLocal() {
+  try { localStorage.setItem(claveActiva, JSON.stringify(state)); } catch (e) { /* sin espacio */ }
+}
+
+/* Guarda en el teléfono y, si hay cuenta, lo sube a la nube */
 function saveState() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* sin espacio */ }
+  state.updatedAt = new Date().toISOString();
+  guardarLocal();
+  if (typeof Cuentas !== "undefined") Cuentas.programar();
+}
+
+/* Cambia al avance de otra persona (o al de "sin cuenta" si uid es null) */
+function activarUsuario(uid, inicial) {
+  claveActiva = claveDeUsuario(uid);
+  state = inicial || loadState();
+  guardarLocal();
+  updateGlobalProgress();
+}
+
+/* La nube trajo avance hecho en otro teléfono: se adopta sin
+   interrumpir un examen o una práctica que esté en curso. */
+function reemplazarEstado(nuevo) {
+  const antes = Object.keys(state.passed).sort().join(",");
+  state = nuevo;
+  state.passed = state.passed || {};
+  state.tries = state.tries || {};
+  state.speech = state.speech || {};
+  guardarLocal();
+  updateGlobalProgress();
+  const v = route().view;
+  if (Object.keys(state.passed).sort().join(",") !== antes && ["home", "level", "module", "dict"].indexOf(v) >= 0) render();
 }
 
 function isPassed(modId) { return !!state.passed[modId]; }
@@ -264,6 +300,29 @@ function openSettings() {
   slider.value = state.settings.rate;
   document.getElementById("rateLabel").textContent = state.settings.rate;
   updateVoicesInfo();
+  if (typeof Cuentas !== "undefined") Cuentas.pintarAjustes();
+}
+
+/* Comparte el enlace de la app: en el teléfono abre el menú de
+   compartir (WhatsApp, mensajes…); en la computadora lo copia. */
+function compartirApp() {
+  const datos = {
+    title: "Inglés Técnico para Electricistas",
+    text: "Aprende el inglés de la obra eléctrica: herramientas, materiales y frases, con audio y exámenes. Ábrela en Chrome y elige \"Instalar aplicación\":",
+    url: APP_URL
+  };
+  if (navigator.share) {
+    navigator.share(datos).catch(function () { /* el usuario canceló */ });
+    return;
+  }
+  const respaldo = function () { prompt("Copia este enlace y compártelo:", APP_URL); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(APP_URL)
+      .then(function () { toast("🔗 Enlace copiado. Pégalo en WhatsApp o en un mensaje."); })
+      .catch(respaldo);
+  } else {
+    respaldo();
+  }
 }
 function closeSettings() { document.getElementById("settingsModal").classList.remove("show"); }
 
@@ -293,7 +352,8 @@ function updateVoicesInfo() {
 
 function resetProgress() {
   if (!confirm("¿Seguro que quieres borrar TODO tu progreso? Esta acción no se puede deshacer.")) return;
-  state = { passed: {}, tries: {}, settings: state.settings };
+  /* resetAt avisa a la nube y a tus otros teléfonos que lo anterior ya no cuenta */
+  state = { passed: {}, tries: {}, speech: {}, settings: state.settings, resetAt: new Date().toISOString() };
   saveState();
   closeSettings();
   toast("Progreso borrado. ¡A empezar de nuevo con ganas! 💪");
@@ -316,9 +376,29 @@ function render() {
   if (!app) return;
   const r = route();
   if ("speechSynthesis" in window) speechSynthesis.cancel();
+  if (typeof Voz !== "undefined") Voz.detener();
 
   document.getElementById("navHome").classList.toggle("active", r.view === "home" || r.view === "level");
   document.getElementById("navDict").classList.toggle("active", r.view === "dict");
+
+  if (typeof Cuentas !== "undefined" && Cuentas.activo()) {
+    if (r.view === "login" || r.view === "registro") {
+      app.innerHTML = Cuentas.vista(r.view);
+      Cuentas.conectarVista(r.view);
+      updateGlobalProgress();
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (Cuentas.pideEntrar()) { location.hash = "#/login"; return; }
+  }
+
+  if (r.view === "speak") {
+    const found = findModule(r.id);
+    if (!found || !isModuleUnlocked(r.id) || typeof Voz === "undefined") { location.hash = "#/home"; return; }
+    Voz.iniciarPractica(found.level, found.module);
+    updateGlobalProgress();
+    return;
+  }
 
   if (r.view === "level") {
     const lv = COURSE.levels.find(function (l) { return l.id === r.id; });
@@ -359,7 +439,9 @@ function viewHome() {
   const current = currentLevelName();
   let html = "";
 
+  const quien = typeof Cuentas !== "undefined" ? Cuentas.nombre() : null;
   html += '<section class="hero">' +
+    (quien ? '<p class="hola">👋 Hola, ' + esc(quien) + "</p>" : "") +
     "<h2>⚡ De Ayudante a Foreman</h2>" +
     "<p>Aprende el inglés real de la obra eléctrica en EE.UU.: herramientas, seguridad, materiales, dispositivos y las frases para pedirlos y usarlos — con audio, imágenes y referencias al Código Eléctrico Nacional (NEC).</p>" +
     '<p style="margin-top:0.6rem"><b>Regla de la obra:</b> necesitas <b>100%</b> en el examen de cada módulo para desbloquear el siguiente. Igual que en el trabajo: se hace bien, o se vuelve a hacer.</p>' +
@@ -439,6 +521,9 @@ function viewModule(lv, m) {
     '<div class="mod-icon" style="width:52px;height:52px;background:var(--navy-800);border-radius:12px;display:grid;place-items:center;font-size:1.5rem">' + esc(m.icon) + "</div>" +
     "<h2>" + esc(m.title) + "<small>" + esc(m.en) + " · " + m.items.length + " términos</small></h2>" +
     (isPassed(m.id) ? '<span class="badge pass" style="font-size:0.85rem">✔ Aprobado</span>' : "") +
+    (typeof Voz !== "undefined" && Voz.disponible
+      ? '<span class="badge mic-badge" title="Términos que ya se te entienden al menos al 75%">🎤 ' + Voz.dominados(m) + "/" + m.items.length + " pronunciados</span>"
+      : "") +
     "</div>" +
     '<div class="desc">' + esc(m.desc) + "</div>" +
     (m.tip ? '<div class="tipbox"><span class="ico">💡</span><span>' + esc(m.tip) + "</span></div>" : "") +
@@ -448,11 +533,12 @@ function viewModule(lv, m) {
   html += '<div class="action-row">' +
     '<button class="btn ghost" onclick="location.hash=\'#/level/' + lv.id + '\'">← Volver</button>' +
     '<button class="btn dark" onclick="location.hash=\'#/practice/' + m.id + '\'">🎯 Practicar (sin calificación)</button>' +
+    '<button class="btn green mic-only" onclick="location.hash=\'#/speak/' + m.id + '\'">🎤 Pronunciación</button>' +
     '<button class="btn primary" onclick="location.hash=\'#/exam/' + m.id + '\'">📝 Examen — necesitas 100%</button>' +
     "</div>";
 
   html += '<div class="vocab-grid">';
-  m.items.forEach(function (it) { html += vocabCardHTML(it); });
+  m.items.forEach(function (it, i) { html += vocabCardHTML(it, m.id + ":" + i); });
   html += "</div>";
 
   html += '<div class="action-row" style="justify-content:center;margin-top:1.5rem">' +
@@ -463,10 +549,13 @@ function viewModule(lv, m) {
 
 let sayId = 0; /* ids únicos para el resaltado karaoke */
 
-function vocabCardHTML(it) {
+function vocabCardHTML(it, clave) {
   const idEn = "sayEn" + (++sayId);
   const idEs = "sayEs" + sayId;
   const idEx = "sayEx" + sayId;
+  const idRes = "micRes" + sayId;
+  const idExRes = "micExRes" + sayId;
+  const keyAttr = function (sufijo) { return clave ? ' data-key="' + esc(clave + sufijo) + '"' : ""; };
 
   let html = '<article class="vocab-card">';
   html += '<div class="vocab-main">' + iconHTML(it.icon) +
@@ -480,14 +569,18 @@ function vocabCardHTML(it) {
     '<button class="audio-btn" data-say="' + esc(speakableEn(it.en)) + '" data-lang="en" data-hl="#' + idEn + '">🔊 Inglés</button>' +
     '<button class="audio-btn drill" title="Lo dice despacio y luego a velocidad real" data-say="' + esc(speakableEn(it.en)) + '" data-lang="en" data-hl="#' + idEn + '" data-mode="drill">🐢→🐇 Lento y normal</button>' +
     '<button class="audio-btn" data-say="' + esc(speakableEs(it.es)) + '" data-lang="es" data-hl="#' + idEs + '">🔉 Español</button>' +
-    "</div>";
+    '<button class="audio-btn mic mic-only" title="Dilo en inglés y la app te dice si se entendió" data-mic="#' + idEn + '" data-res="#' + idRes + '" data-obj="' + esc(it.en) + '"' + keyAttr(":t") + ">🎤 Pronunciar</button>" +
+    "</div>" +
+    '<div class="mic-res" id="' + idRes + '"></div>';
 
   if (it.exEn) {
     html += '<div class="vocab-example">' +
       '<div class="en-ex">🇺🇸 <span id="' + idEx + '">' + esc(it.exEn) + "</span>" +
       '<button class="mini-audio" title="Escuchar ejemplo" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '">🔊</button>' +
-      '<button class="mini-audio" title="Lento y luego normal" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '" data-mode="drill">🐢</button></div>' +
+      '<button class="mini-audio" title="Lento y luego normal" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '" data-mode="drill">🐢</button>' +
+      '<button class="mini-audio mic mic-only" title="Di la frase en inglés" data-mic="#' + idEx + '" data-res="#' + idExRes + '" data-obj="' + esc(it.exEn) + '" data-frase="1"' + keyAttr(":e") + ">🎤</button></div>" +
       '<div class="es-ex">🇲🇽 ' + esc(it.exEs || "") + "</div>" +
+      '<div class="mic-res" id="' + idExRes + '"></div>' +
       "</div>";
   }
   if (it.note) html += '<div class="vocab-note"><b>💬 Nota de obra:</b> ' + esc(it.note) + "</div>";

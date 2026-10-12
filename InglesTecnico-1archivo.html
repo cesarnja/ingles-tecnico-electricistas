@@ -823,6 +823,142 @@ body { overscroll-behavior-y: contain; }
   .btn { padding: 0.85rem 1.4rem; }
 }
 
+/* ---------------- Reconocimiento de voz (pronunciar) ---------------- */
+
+/* Si el navegador no reconoce voz, los botones de micrófono no aparecen */
+.no-mic .mic-only { display: none !important; }
+
+.audio-btn.mic {
+  background: var(--emerald-500);
+  border-color: var(--emerald-500);
+  color: #fff;
+}
+.audio-btn.mic:hover { background: #0d9668; border-color: #0d9668; }
+
+/* Mientras escucha: rojo con latido, para que se note que está grabando */
+.audio-btn.escuchando, .btn.escuchando, .mini-audio.escuchando {
+  background: var(--red-500) !important;
+  border-color: var(--red-500) !important;
+  color: #fff !important;
+  animation: latido 1s ease-in-out infinite;
+}
+.mini-audio.escuchando { border-radius: 999px; padding: 0 0.35rem; }
+@keyframes latido {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.mic-res {
+  display: none;
+  margin: 0 1.1rem 0.7rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+.mic-res.show { display: block; }
+.mic-res.listening { background: var(--sky-100); color: #075985; }
+.mic-res.good { background: var(--emerald-100); color: #065f46; }
+.mic-res.ok { background: var(--amber-100); color: #7c5205; }
+.mic-res.bad { background: var(--red-100); color: #991b1b; }
+.vocab-example .mic-res { margin: 0.5rem 0 0; }
+.mic-pct { float: right; font-weight: 800; font-size: 1rem; margin-left: 0.5rem; }
+.mic-oido { margin-top: 0.25rem; font-style: italic; }
+.mic-tip { margin-top: 0.2rem; font-size: 0.78rem; }
+.dicho-mal-demo { color: #991b1b; font-weight: 800; }
+
+/* Palabras después de hablar: verde se entendió, rojo no */
+.w.dicho-ok { background: var(--emerald-100); color: #065f46; box-shadow: inset 0 -2px 0 var(--emerald-500); }
+.w.dicho-mal { background: var(--red-100); color: #991b1b; box-shadow: inset 0 -2px 0 var(--red-500); }
+
+.badge.mic-badge { background: var(--emerald-100); color: #067a5b; font-size: 0.8rem; }
+
+/* Práctica de pronunciación, término por término */
+.speak-card .speak-es { color: var(--ink-soft); font-size: 1rem; text-align: center; margin-bottom: 0.3rem; }
+.speak-card .q-prompt, .speak-card .q-sub, .speak-card .q-kind { text-align: center; }
+.speak-audio { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin: 0.9rem 0 0.6rem; }
+.speak-mic { text-align: center; margin: 0.4rem 0; }
+.speak-card .mic-res { margin: 0.6rem 0 0; }
+.speak-ex { border-top: 1px dashed var(--line); margin-top: 1.1rem; padding-top: 0.9rem; font-size: 0.92rem; line-height: 1.5; }
+.speak-ex .en-ex { color: var(--navy-800); font-weight: 600; margin: 0.3rem 0; }
+.speak-ex .es-ex { color: var(--ink-soft); margin-bottom: 0.6rem; }
+.speak-nav { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.3rem; }
+
+/* ---------------- Cuentas de usuario ---------------- */
+
+.auth-card {
+  max-width: 440px;
+  margin: 1.2rem auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 1.6rem 1.4rem;
+}
+.auth-ico { font-size: 2.4rem; text-align: center; }
+.auth-card h2 { text-align: center; color: var(--navy-800); margin: 0.2rem 0 0.4rem; }
+.auth-lead { color: var(--ink-soft); font-size: 0.9rem; text-align: center; margin-bottom: 1.1rem; line-height: 1.45; }
+.auth-field { margin-bottom: 0.8rem; }
+.auth-field label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 0.3rem; }
+.auth-input { position: relative; }
+.auth-input input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.auth-input input:focus { outline: 2px solid var(--amber-400); background: #fff; }
+.auth-input input.con-ojo { padding-right: 2.8rem; }
+.auth-eye {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 1.15rem;
+  padding: 0.3rem 0.4rem;
+}
+.auth-hint { font-size: 0.78rem; color: var(--ink-soft); margin: -0.3rem 0 0.8rem; line-height: 1.4; }
+.auth-go { width: 100%; justify-content: center; margin-top: 0.4rem; }
+.auth-msg { min-height: 1.2rem; margin-top: 0.8rem; font-size: 0.9rem; text-align: center; color: #991b1b; font-weight: 600; }
+.auth-msg.info { color: var(--navy-700); }
+.auth-alt { text-align: center; margin-top: 0.9rem; font-size: 0.92rem; }
+.auth-alt a { color: var(--navy-700); font-weight: 800; }
+.auth-skip { text-align: center; margin-top: 0.7rem; font-size: 0.8rem; }
+.auth-skip a { color: var(--ink-soft); }
+
+.hola { font-weight: 800; color: var(--amber-400); margin-bottom: 0.3rem; font-size: 1.05rem; }
+
+/* La ventana de ajustes ahora tiene más cosas: que se pueda desplazar */
+.modal { max-height: 92vh; overflow-y: auto; }
+.btn.compartir { width: 100%; justify-content: center; }
+.cuenta-box {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  margin-bottom: 1rem;
+  background: var(--paper);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.cuenta-info code { background: #fff; padding: 0 0.3rem; border-radius: 4px; }
+.cuenta-estado { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.3rem; }
+.cuenta-acciones { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.cuenta-acciones .btn { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+.cuenta-clave { margin-top: 0.7rem; }
+.cuenta-clave input {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
 </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
@@ -856,7 +992,11 @@ body { overscroll-behavior-y: contain; }
   <!-- Modal de ajustes -->
   <div class="modal-back" id="settingsModal">
     <div class="modal">
-      <h3>⚙️ Ajustes de voz</h3>
+      <h3>⚙️ Ajustes</h3>
+      <div class="cuenta-box" id="cuentaBox" hidden></div>
+      <div class="field">
+        <button class="btn green compartir" type="button" onclick="compartirApp()">📤 Compartir la app con alguien</button>
+      </div>
       <div class="field">
         <label>Velocidad del botón 🔊 Inglés: <span id="rateLabel">0.9</span>×</label>
         <input type="range" id="rateSlider" min="0.5" max="1.2" step="0.05" value="0.9">
@@ -867,6 +1007,13 @@ body { overscroll-behavior-y: contain; }
           <b>dos veces</b>: primero muy despacio (0.55×) para que distingas cada palabra, y luego a
           velocidad real (1×) para acostumbrar tu oído a como hablan en la obra.
           Escucha y <b>repite en voz alta</b> las dos veces: así se aprende a hablar.
+        </div>
+      </div>
+      <div class="field mic-only">
+        <div class="voices-info">
+          <b>🎤 Pronunciar:</b> dices la palabra en inglés y la app te muestra en
+          <b style="color:#065f46">verde</b> lo que se entendió y en <b style="color:#991b1b">rojo</b> lo que no.
+          Necesita <b>internet</b> y permiso para usar el micrófono.
         </div>
       </div>
       <div class="voices-info" id="voicesInfo">Detectando voces del sistema…</div>
@@ -2950,6 +3097,530 @@ function allItems() {
 </script>
   <script>
 /* ============================================================
+   FIREBASE-CONFIG.JS — Datos del proyecto de Firebase
+   Mientras esté en null, la app funciona SIN cuentas, como
+   siempre: el avance se guarda solo en el teléfono.
+   Para activar los usuarios con clave, se llena con el apiKey
+   y el projectId del proyecto de Firebase. Estos datos son
+   públicos por diseño: la seguridad la dan las reglas de
+   Firestore, que solo dejan a cada persona leer y escribir
+   su propio avance.
+   ============================================================ */
+
+window.FIREBASE_CONFIG = null;
+
+</script>
+  <script>
+/* ============================================================
+   CUENTAS.JS — Usuarios con su propia clave
+   Cada persona entra con su usuario y su avance se guarda en la
+   nube (Firebase de Google), así lo encuentra en cualquier
+   teléfono. Se habla con Firebase por su API web directa, sin
+   cargar su librería, para que la app siga ligera.
+   Si firebase-config.js está vacío, la app funciona como
+   siempre: sin cuenta, todo guardado en el teléfono.
+   ============================================================ */
+
+const Cuentas = (function () {
+  const CFG = window.FIREBASE_CONFIG || null;
+  const activo = !!(CFG && CFG.apiKey && CFG.projectId);
+
+  const SESION_KEY = "inglesTecnicoSesion_v1";
+  const SIN_CUENTA_KEY = "inglesTecnicoSinCuenta_v1";
+  /* Firebase pide un correo; los usuarios no necesitan tener uno.
+     Se usa un dominio reservado (.example.com) que nunca recibe correo. */
+  const DOMINIO = "@inglestecnico.example.com";
+  const AUTH = "https://identitytoolkit.googleapis.com/v1/";
+
+  function leer(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+  function escribir(k, v) {
+    try {
+      if (v == null) localStorage.removeItem(k);
+      else localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) { /* sin espacio */ }
+  }
+
+  let sesion = activo ? leer(SESION_KEY) : null;
+  let textoEstado = "";
+  let ocupado = false, pendiente = false, temporizador = null, ultimaSync = 0, ultimoError = null;
+
+  /* ---------------- Comunicación con Firebase ---------------- */
+
+  function codigoError(j) {
+    const e = (j && j.error) || {};
+    const m = String(e.message || "").split(" ")[0].split(":")[0];
+    if (/^[A-Z_]+$/.test(m)) return m;
+    return e.status || ("HTTP_" + (e.code || "?"));
+  }
+
+  async function pedir(url, opciones) {
+    let r;
+    try { r = await fetch(url, opciones); }
+    catch (e) { throw new Error("SIN_RED"); }
+    if (r.status === 404 && opciones.method === "GET") return null;
+    const j = await r.json().catch(function () { return {}; });
+    if (!r.ok) throw new Error(codigoError(j));
+    return j;
+  }
+
+  function postJSON(url, cuerpo) {
+    return pedir(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(cuerpo) });
+  }
+
+  function urlDoc(uid) {
+    return "https://firestore.googleapis.com/v1/projects/" + encodeURIComponent(CFG.projectId) +
+      "/databases/(default)/documents/usuarios/" + encodeURIComponent(uid);
+  }
+
+  const api = {
+    registrar: function (email, clave) {
+      return postJSON(AUTH + "accounts:signUp?key=" + CFG.apiKey, { email: email, password: clave, returnSecureToken: true });
+    },
+    entrar: function (email, clave) {
+      return postJSON(AUTH + "accounts:signInWithPassword?key=" + CFG.apiKey, { email: email, password: clave, returnSecureToken: true });
+    },
+    refrescar: function (refreshToken) {
+      return pedir("https://securetoken.googleapis.com/v1/token?key=" + CFG.apiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "grant_type=refresh_token&refresh_token=" + encodeURIComponent(refreshToken)
+      });
+    },
+    cambiarClave: function (idToken, clave) {
+      return postJSON(AUTH + "accounts:update?key=" + CFG.apiKey, { idToken: idToken, password: clave, returnSecureToken: true });
+    },
+    leerDoc: async function (uid, idToken) {
+      const j = await pedir(urlDoc(uid), { method: "GET", headers: { Authorization: "Bearer " + idToken } });
+      if (!j) return null;
+      const f = j.fields || {};
+      let progreso = null;
+      try { progreso = f.progreso ? JSON.parse(f.progreso.stringValue) : null; } catch (e) { progreso = null; }
+      return {
+        usuario: f.usuario ? f.usuario.stringValue : "",
+        nombre: f.nombre ? f.nombre.stringValue : "",
+        progreso: progreso
+      };
+    },
+    guardarDoc: function (uid, idToken, d) {
+      return pedir(urlDoc(uid), {
+        method: "PATCH",
+        headers: { Authorization: "Bearer " + idToken, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fields: {
+            usuario: { stringValue: d.usuario || "" },
+            nombre: { stringValue: d.nombre || "" },
+            progreso: { stringValue: JSON.stringify(d.progreso || {}) },
+            actualizado: { timestampValue: new Date().toISOString() }
+          }
+        })
+      });
+    }
+  };
+
+  /* Los tokens duran una hora; se renuevan solos antes de vencer */
+  function guardarTokens(r) {
+    sesion.idToken = r.idToken || r.id_token;
+    sesion.refreshToken = r.refreshToken || r.refresh_token;
+    sesion.expira = Date.now() + Number(r.expiresIn || r.expires_in || 3600) * 1000;
+    escribir(SESION_KEY, sesion);
+  }
+
+  async function token() {
+    if (!sesion) throw new Error("SIN_SESION");
+    if (sesion.idToken && Date.now() < sesion.expira - 5 * 60 * 1000) return sesion.idToken;
+    guardarTokens(await api.refrescar(sesion.refreshToken));
+    return sesion.idToken;
+  }
+
+  /* ---------------- Mezclar avance de dos lugares ---------------- */
+
+  /* Une lo del teléfono con lo de la nube sin perder nada:
+     módulos aprobados en cualquiera de los dos, el mayor número de
+     intentos y el mejor puntaje de pronunciación. Si alguien borró
+     su progreso, lo anterior a ese borrado ya no cuenta. */
+  function mezclar(a, b) {
+    a = a || {}; b = b || {};
+    const R = [a.resetAt || "", b.resetAt || ""].sort().pop();
+    const vigente = function (s) { return !R || (s.updatedAt || "") >= R; };
+    const fuentes = [b, a].filter(vigente);
+    const out = {
+      passed: {}, tries: {}, speech: {},
+      settings: Object.assign({ rate: 0.9 }, b.settings, a.settings),
+      updatedAt: [a.updatedAt || "", b.updatedAt || ""].sort().pop() || undefined
+    };
+    if (R) out.resetAt = R;
+    fuentes.forEach(function (s) {
+      Object.keys(s.passed || {}).forEach(function (k) {
+        const x = s.passed[k], y = out.passed[k];
+        if (!y || (x.date || "") < (y.date || "")) out.passed[k] = x;
+      });
+      Object.keys(s.tries || {}).forEach(function (k) { out.tries[k] = Math.max(out.tries[k] || 0, s.tries[k] || 0); });
+      Object.keys(s.speech || {}).forEach(function (k) { out.speech[k] = Math.max(out.speech[k] || 0, s.speech[k] || 0); });
+    });
+    return out;
+  }
+
+  function huella(s) {
+    s = s || {};
+    const ord = function (o) {
+      o = o || {};
+      return Object.keys(o).sort().map(function (k) { return k + "=" + JSON.stringify(o[k]); }).join("|");
+    };
+    return [ord(s.passed), ord(s.tries), ord(s.speech), s.resetAt || ""].join("#");
+  }
+
+  /* ---------------- Sincronización ---------------- */
+
+  function ponerEstado(t) {
+    textoEstado = t;
+    const el = document.getElementById("cuentaEstado");
+    if (el) el.textContent = t;
+  }
+
+  /* Se llama cada vez que cambia el avance: espera 2 s y sube */
+  function programar() {
+    if (!activo || !sesion) return;
+    clearTimeout(temporizador);
+    temporizador = setTimeout(sincronizar, 2000);
+  }
+
+  const ERRORES_SESION = ["TOKEN_EXPIRED", "USER_DISABLED", "USER_NOT_FOUND", "INVALID_REFRESH_TOKEN",
+    "INVALID_GRANT_TYPE", "MISSING_REFRESH_TOKEN", "UNAUTHENTICATED", "SIN_SESION", "INVALID_ID_TOKEN"];
+
+  async function sincronizar() {
+    if (!activo || !sesion) return;
+    if (navigator.onLine === false) {
+      ponerEstado("📴 Sin internet: tu avance se guarda en el teléfono y se sube cuando vuelva la señal.");
+      return;
+    }
+    if (ocupado) { pendiente = true; return; }
+    ocupado = true;
+    ultimaSync = Date.now();
+    ponerEstado("☁️ Sincronizando…");
+    try {
+      const tk = await token();
+      const nube = await api.leerDoc(sesion.uid, tk);
+      if (nube && nube.nombre && nube.nombre !== sesion.nombre) {
+        sesion.nombre = nube.nombre;
+        escribir(SESION_KEY, sesion);
+      }
+      if (nube && nube.progreso) {
+        const mezcla = mezclar(state, nube.progreso);
+        if (huella(mezcla) !== huella(state)) reemplazarEstado(mezcla);
+      }
+      await api.guardarDoc(sesion.uid, tk, { usuario: sesion.usuario, nombre: sesion.nombre, progreso: state });
+      ponerEstado("✅ Tu avance está guardado en la nube.");
+      ultimoError = null;
+    } catch (e) {
+      const c = e && e.message;
+      if (c === "SIN_RED") {
+        ponerEstado("📴 Sin internet: tu avance se guarda en el teléfono y se sube cuando vuelva la señal.");
+      } else if (ERRORES_SESION.indexOf(c) >= 0) {
+        cerrarSesionLocal();
+        toast("🔑 Tu sesión venció. Entra de nuevo para seguir guardando tu avance.", 4500);
+        location.hash = "#/login";
+      } else {
+        ponerEstado("⚠️ No se pudo sincronizar (" + c + "). Se volverá a intentar.");
+        if (c !== ultimoError) toast("⚠️ " + textoError(c), 4500);
+      }
+      ultimoError = c;
+    } finally {
+      ocupado = false;
+      if (pendiente) { pendiente = false; programar(); }
+    }
+  }
+
+  function cerrarSesionLocal() {
+    clearTimeout(temporizador);
+    sesion = null;
+    escribir(SESION_KEY, null);
+    activarUsuario(null);
+  }
+
+  window.addEventListener("online", function () { if (activo && sesion) sincronizar(); });
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible" && activo && sesion && Date.now() - ultimaSync > 60000) sincronizar();
+  });
+  document.addEventListener("DOMContentLoaded", function () { if (activo && sesion) sincronizar(); });
+
+  /* ---------------- Usuarios ---------------- */
+
+  function limpiarUsuario(u) {
+    return String(u || "").trim().toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/\s+/g, ".")
+      .replace(/[^a-z0-9._-]/g, "");
+  }
+  function usuarioValido(u) { return /^[a-z][a-z0-9._-]{2,19}$/.test(u); }
+
+  const MENSAJES = {
+    SIN_RED: "📶 No hay internet. Para entrar o crear tu cuenta la primera vez necesitas conexión.",
+    EMAIL_EXISTS: "Ese usuario ya existe. Elige otro, o entra con tu clave.",
+    INVALID_LOGIN_CREDENTIALS: "Usuario o clave incorrectos.",
+    EMAIL_NOT_FOUND: "Usuario o clave incorrectos.",
+    INVALID_PASSWORD: "Usuario o clave incorrectos.",
+    INVALID_EMAIL: "Ese usuario no es válido. Usa solo letras, números, punto o guion.",
+    WEAK_PASSWORD: "La clave debe tener al menos 6 caracteres.",
+    TOO_MANY_ATTEMPTS_TRY_LATER: "Demasiados intentos. Espera unos minutos y vuelve a probar.",
+    USER_DISABLED: "Esta cuenta fue desactivada.",
+    OPERATION_NOT_ALLOWED: "El registro con usuario y clave no está activado todavía en el servidor.",
+    ADMIN_ONLY_OPERATION: "El registro de cuentas nuevas está cerrado. Pide que te creen la cuenta.",
+    PERMISSION_DENIED: "El servidor no dejó guardar el avance. Hay que revisar las reglas de Firestore.",
+    CREDENTIAL_TOO_OLD_LOGIN_AGAIN: "Por seguridad, cierra sesión y vuelve a entrar antes de cambiar la clave."
+  };
+  function textoError(c) { return MENSAJES[c] || ("No se pudo completar (" + c + "). Intenta de nuevo."); }
+
+  /* Si el teléfono ya tenía avance sin cuenta, se ofrece pasarlo a la
+     cuenta nueva. Solo si la cuenta está vacía, para no mezclar el
+     avance de dos personas que compartan teléfono. */
+  function ofrecerMigrar(estado) {
+    const anon = loadState(STORE_KEY);
+    const n = Object.keys(anon.passed || {}).length;
+    if (!n || Object.keys(estado.passed || {}).length) return estado;
+    const ok = confirm("Este teléfono tiene " + n + (n === 1 ? " módulo aprobado" : " módulos aprobados") +
+      " sin cuenta.\n\n¿Es tu avance? Si dices que sí, pasa a tu cuenta.");
+    if (!ok) return estado;
+    try { localStorage.removeItem(STORE_KEY); } catch (e) { /* nada */ }
+    return mezclar(estado, anon);
+  }
+
+  async function entrarConCuenta(usuario, clave) {
+    const r = await api.entrar(usuario + DOMINIO, clave);
+    sesion = { uid: r.localId, usuario: usuario, nombre: usuario };
+    guardarTokens(r);
+    escribir(SIN_CUENTA_KEY, null);
+    let nube = null;
+    try { nube = await api.leerDoc(sesion.uid, sesion.idToken); } catch (e) { nube = null; }
+    if (nube && nube.nombre) { sesion.nombre = nube.nombre; escribir(SESION_KEY, sesion); }
+    const local = loadState(claveDeUsuario(sesion.uid));
+    let inicial = nube && nube.progreso ? mezclar(local, nube.progreso) : local;
+    inicial = ofrecerMigrar(inicial);
+    activarUsuario(sesion.uid, inicial);
+    sincronizar();
+  }
+
+  async function crearCuenta(nombre, usuario, clave) {
+    const r = await api.registrar(usuario + DOMINIO, clave);
+    sesion = { uid: r.localId, usuario: usuario, nombre: nombre };
+    guardarTokens(r);
+    escribir(SIN_CUENTA_KEY, null);
+    const inicial = ofrecerMigrar(loadState(claveDeUsuario(sesion.uid)));
+    activarUsuario(sesion.uid, inicial);
+    await sincronizar();
+  }
+
+  async function salir() {
+    if (!confirm("¿Cerrar sesión en este teléfono?\n\nTu avance queda guardado en tu cuenta.")) return;
+    clearTimeout(temporizador);
+    if (navigator.onLine !== false) await sincronizar();
+    cerrarSesionLocal();
+    closeSettings();
+    toast("Sesión cerrada.");
+    location.hash = "#/login";
+  }
+
+  /* ---------------- Pantallas de entrar y crear cuenta ---------------- */
+
+  function campo(id, etiqueta, tipo, autocompletar, extra) {
+    const esClave = tipo === "password";
+    return '<div class="auth-field"><label for="' + id + '">' + etiqueta + "</label>" +
+      '<div class="auth-input"><input id="' + id + '" type="' + tipo + '"' + (esClave ? ' class="con-ojo"' : "") + ' autocomplete="' + autocompletar + '" ' + (extra || "") + ">" +
+      (esClave ? '<button type="button" class="auth-eye" data-ojo="' + id + '" title="Mostrar u ocultar la clave">👁</button>' : "") +
+      "</div></div>";
+  }
+
+  function vista(tipo) {
+    if (tipo === "registro") {
+      return '<section class="auth-card">' +
+        '<div class="auth-ico">📝</div>' +
+        "<h2>Crea tu cuenta</h2>" +
+        '<p class="auth-lead">Toma un minuto. No necesitas correo: con un usuario y una clave basta. Tu avance te va a seguir a cualquier teléfono.</p>' +
+        '<form id="authForm" novalidate>' +
+        campo("authName", "Tu nombre", "text", "name", 'placeholder="ej. María Jiménez"') +
+        campo("authUser", "Usuario", "text", "username", 'autocapitalize="none" spellcheck="false" placeholder="ej. maria.jimenez"') +
+        '<div class="auth-hint" id="authUserHint">Sin espacios ni acentos: letras, números, punto o guion.</div>' +
+        campo("authPass", "Clave (mínimo 6 caracteres)", "password", "new-password", "") +
+        campo("authPass2", "Repite la clave", "password", "new-password", "") +
+        '<div class="auth-hint">⚠️ Anota tu clave en un lugar seguro. Como no usamos correo, no se puede recuperar sola.</div>' +
+        '<button class="btn primary big auth-go" type="submit">Crear mi cuenta</button>' +
+        "</form>" +
+        '<div class="auth-msg" id="authMsg" role="status"></div>' +
+        '<p class="auth-alt">¿Ya tienes cuenta? <a href="#/login">Entra aquí</a></p>' +
+        "</section>";
+    }
+    return '<section class="auth-card">' +
+      '<div class="auth-ico">👷</div>' +
+      "<h2>Entra a tu cuenta</h2>" +
+      '<p class="auth-lead">Cada persona estudia con su propio usuario. Tu avance se guarda en la nube y te sigue a cualquier teléfono.</p>' +
+      '<form id="authForm" novalidate>' +
+      campo("authUser", "Usuario", "text", "username", 'autocapitalize="none" spellcheck="false" placeholder="ej. cesar"') +
+      campo("authPass", "Clave", "password", "current-password", "") +
+      '<button class="btn primary big auth-go" type="submit">Entrar</button>' +
+      "</form>" +
+      '<div class="auth-msg" id="authMsg" role="status"></div>' +
+      '<p class="auth-alt">¿Primera vez? <a href="#/registro">Crea tu cuenta aquí</a></p>' +
+      '<p class="auth-skip"><a href="#/home" id="authSkip">Usar sin cuenta en este teléfono</a></p>' +
+      "</section>";
+  }
+
+  function valor(id) { const el = document.getElementById(id); return el ? el.value : ""; }
+
+  function aviso(texto, clase) {
+    const el = document.getElementById("authMsg");
+    if (!el) return;
+    el.className = "auth-msg" + (clase ? " " + clase : "");
+    el.textContent = texto;
+  }
+
+  function bloquear(si) {
+    const f = document.getElementById("authForm");
+    if (!f) return;
+    Array.prototype.forEach.call(f.querySelectorAll("input, button"), function (x) { x.disabled = si; });
+  }
+
+  function conectarVista(tipo) {
+    const form = document.getElementById("authForm");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ojo]"), function (b) {
+      b.addEventListener("click", function () {
+        const inp = document.getElementById(b.getAttribute("data-ojo"));
+        inp.type = inp.type === "password" ? "text" : "password";
+      });
+    });
+
+    if (tipo === "registro") {
+      const u = document.getElementById("authUser");
+      const hint = document.getElementById("authUserHint");
+      u.addEventListener("input", function () {
+        const limpio = limpiarUsuario(u.value);
+        hint.innerHTML = limpio
+          ? "Tu usuario será: <b>" + esc(limpio) + "</b>" + (usuarioValido(limpio) ? " ✅" : " — debe empezar con letra y tener de 3 a 20 caracteres")
+          : "Sin espacios ni acentos: letras, números, punto o guion.";
+      });
+      document.getElementById("authName").focus();
+    } else {
+      document.getElementById("authUser").focus();
+      document.getElementById("authSkip").addEventListener("click", function (ev) {
+        ev.preventDefault();
+        escribir(SIN_CUENTA_KEY, "1");
+        location.hash = "#/home";
+      });
+    }
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      const usuario = limpiarUsuario(valor("authUser"));
+      const clave = valor("authPass");
+
+      if (tipo === "registro") {
+        const nombre = valor("authName").trim();
+        if (!nombre) return aviso("Escribe tu nombre.");
+        if (!usuarioValido(usuario)) return aviso("El usuario debe empezar con letra y tener de 3 a 20 caracteres: letras, números, punto o guion.");
+        if (clave.length < 6) return aviso("La clave debe tener al menos 6 caracteres.");
+        if (clave !== valor("authPass2")) return aviso("Las dos claves no coinciden.");
+        bloquear(true);
+        aviso("Creando tu cuenta…", "info");
+        try {
+          await crearCuenta(nombre, usuario, clave);
+          toast("✅ Cuenta creada. ¡Bienvenido, " + nombre + "!", 3500);
+          location.hash = "#/home";
+        } catch (e) {
+          bloquear(false);
+          aviso(textoError(e.message));
+        }
+        return;
+      }
+
+      if (!usuario || !clave) return aviso("Escribe tu usuario y tu clave.");
+      bloquear(true);
+      aviso("Entrando…", "info");
+      try {
+        await entrarConCuenta(usuario, clave);
+        toast("👋 ¡Hola, " + sesion.nombre + "!", 3000);
+        location.hash = "#/home";
+      } catch (e) {
+        bloquear(false);
+        aviso(textoError(e.message));
+      }
+    });
+  }
+
+  /* ---------------- Cuenta dentro de Ajustes ---------------- */
+
+  function pintarAjustes() {
+    const box = document.getElementById("cuentaBox");
+    if (!box) return;
+    if (!activo) { box.hidden = true; box.innerHTML = ""; return; }
+    box.hidden = false;
+
+    if (!sesion) {
+      box.innerHTML = '<div class="cuenta-info">📱 Estás usando la app <b>sin cuenta</b>: tu avance solo vive en este teléfono.</div>' +
+        '<div class="cuenta-acciones"><button class="btn primary" type="button" id="btnEntrar">👤 Entrar o crear cuenta</button></div>';
+      document.getElementById("btnEntrar").addEventListener("click", function () {
+        escribir(SIN_CUENTA_KEY, null);
+        closeSettings();
+        location.hash = "#/login";
+      });
+      return;
+    }
+
+    box.innerHTML = '<div class="cuenta-info">👤 <b>' + esc(sesion.nombre) + "</b> · usuario <code>" + esc(sesion.usuario) + "</code>" +
+      '<div class="cuenta-estado" id="cuentaEstado">' + esc(textoEstado || "☁️ Tu avance se guarda en la nube.") + "</div></div>" +
+      '<div class="cuenta-acciones">' +
+      '<button class="btn ghost" type="button" id="btnClave">🔑 Cambiar clave</button>' +
+      '<button class="btn ghost" type="button" id="btnSalir">🚪 Cerrar sesión</button>' +
+      "</div>" +
+      '<div class="cuenta-clave" id="cuentaClave" hidden>' +
+      '<input id="claveActual" type="password" autocomplete="current-password" placeholder="Clave actual">' +
+      '<input id="claveNueva" type="password" autocomplete="new-password" placeholder="Clave nueva (mínimo 6)">' +
+      '<button class="btn primary" type="button" id="btnGuardarClave">Guardar clave nueva</button>' +
+      '<div class="cuenta-estado" id="claveMsg"></div>' +
+      "</div>";
+
+    document.getElementById("btnSalir").addEventListener("click", salir);
+    document.getElementById("btnClave").addEventListener("click", function () {
+      const c = document.getElementById("cuentaClave");
+      c.hidden = !c.hidden;
+      if (!c.hidden) document.getElementById("claveActual").focus();
+    });
+    document.getElementById("btnGuardarClave").addEventListener("click", async function () {
+      const msg = document.getElementById("claveMsg");
+      const actual = valor("claveActual"), nueva = valor("claveNueva");
+      if (nueva.length < 6) { msg.textContent = "La clave nueva debe tener al menos 6 caracteres."; return; }
+      msg.textContent = "Guardando…";
+      try {
+        /* Firebase exige haber entrado hace poco: se vuelve a entrar con la clave actual */
+        const r1 = await api.entrar(sesion.usuario + DOMINIO, actual);
+        guardarTokens(await api.cambiarClave(r1.idToken, nueva));
+        msg.textContent = "✅ Clave cambiada. Úsala la próxima vez que entres.";
+        document.getElementById("claveActual").value = "";
+        document.getElementById("claveNueva").value = "";
+      } catch (e) {
+        msg.textContent = textoError(e.message);
+      }
+    });
+    if (navigator.onLine !== false) sincronizar();
+  }
+
+  return {
+    activo: function () { return activo; },
+    uid: function () { return activo && sesion ? sesion.uid : null; },
+    nombre: function () { return activo && sesion ? sesion.nombre : null; },
+    pideEntrar: function () { return activo && !sesion && leer(SIN_CUENTA_KEY) !== "1"; },
+    programar: programar,
+    sincronizar: sincronizar,
+    vista: vista,
+    conectarVista: conectarVista,
+    pintarAjustes: pintarAjustes,
+    /* para pruebas */
+    _api: api,
+    _mezclar: mezclar,
+    _limpiarUsuario: limpiarUsuario
+  };
+})();
+
+</script>
+  <script>
+/* ============================================================
    APP.JS — Lógica de la aplicación
    Navegación, estudio, audio (TTS), exámenes con regla del 100%
    y progreso guardado en el navegador (localStorage).
@@ -2958,25 +3629,61 @@ function allItems() {
 /* ---------------- Estado y progreso ---------------- */
 
 const STORE_KEY = "electricEnglishProgress_v1";
+const APP_URL = "https://cesarnja.github.io/ingles-tecnico-electricistas/";
 
+/* Cada persona con cuenta guarda su avance aparte en el teléfono;
+   sin cuenta se usa la clave de siempre. */
+function claveDeUsuario(uid) { return uid ? STORE_KEY + "__u_" + uid : STORE_KEY; }
+
+let claveActiva = claveDeUsuario(typeof Cuentas !== "undefined" ? Cuentas.uid() : null);
 let state = loadState();
 
-function loadState() {
+function loadState(clave) {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
+    const raw = localStorage.getItem(clave || claveActiva);
     if (raw) {
       const s = JSON.parse(raw);
       s.passed = s.passed || {};
       s.tries = s.tries || {};
+      s.speech = s.speech || {};
       s.settings = Object.assign({ rate: 0.9 }, s.settings);
       return s;
     }
   } catch (e) { /* almacenamiento corrupto: empezar de cero */ }
-  return { passed: {}, tries: {}, settings: { rate: 0.9 } };
+  return { passed: {}, tries: {}, speech: {}, settings: { rate: 0.9 } };
 }
 
+function guardarLocal() {
+  try { localStorage.setItem(claveActiva, JSON.stringify(state)); } catch (e) { /* sin espacio */ }
+}
+
+/* Guarda en el teléfono y, si hay cuenta, lo sube a la nube */
 function saveState() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* sin espacio */ }
+  state.updatedAt = new Date().toISOString();
+  guardarLocal();
+  if (typeof Cuentas !== "undefined") Cuentas.programar();
+}
+
+/* Cambia al avance de otra persona (o al de "sin cuenta" si uid es null) */
+function activarUsuario(uid, inicial) {
+  claveActiva = claveDeUsuario(uid);
+  state = inicial || loadState();
+  guardarLocal();
+  updateGlobalProgress();
+}
+
+/* La nube trajo avance hecho en otro teléfono: se adopta sin
+   interrumpir un examen o una práctica que esté en curso. */
+function reemplazarEstado(nuevo) {
+  const antes = Object.keys(state.passed).sort().join(",");
+  state = nuevo;
+  state.passed = state.passed || {};
+  state.tries = state.tries || {};
+  state.speech = state.speech || {};
+  guardarLocal();
+  updateGlobalProgress();
+  const v = route().view;
+  if (Object.keys(state.passed).sort().join(",") !== antes && ["home", "level", "module", "dict"].indexOf(v) >= 0) render();
 }
 
 function isPassed(modId) { return !!state.passed[modId]; }
@@ -3215,6 +3922,29 @@ function openSettings() {
   slider.value = state.settings.rate;
   document.getElementById("rateLabel").textContent = state.settings.rate;
   updateVoicesInfo();
+  if (typeof Cuentas !== "undefined") Cuentas.pintarAjustes();
+}
+
+/* Comparte el enlace de la app: en el teléfono abre el menú de
+   compartir (WhatsApp, mensajes…); en la computadora lo copia. */
+function compartirApp() {
+  const datos = {
+    title: "Inglés Técnico para Electricistas",
+    text: "Aprende el inglés de la obra eléctrica: herramientas, materiales y frases, con audio y exámenes. Ábrela en Chrome y elige \"Instalar aplicación\":",
+    url: APP_URL
+  };
+  if (navigator.share) {
+    navigator.share(datos).catch(function () { /* el usuario canceló */ });
+    return;
+  }
+  const respaldo = function () { prompt("Copia este enlace y compártelo:", APP_URL); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(APP_URL)
+      .then(function () { toast("🔗 Enlace copiado. Pégalo en WhatsApp o en un mensaje."); })
+      .catch(respaldo);
+  } else {
+    respaldo();
+  }
 }
 function closeSettings() { document.getElementById("settingsModal").classList.remove("show"); }
 
@@ -3244,7 +3974,8 @@ function updateVoicesInfo() {
 
 function resetProgress() {
   if (!confirm("¿Seguro que quieres borrar TODO tu progreso? Esta acción no se puede deshacer.")) return;
-  state = { passed: {}, tries: {}, settings: state.settings };
+  /* resetAt avisa a la nube y a tus otros teléfonos que lo anterior ya no cuenta */
+  state = { passed: {}, tries: {}, speech: {}, settings: state.settings, resetAt: new Date().toISOString() };
   saveState();
   closeSettings();
   toast("Progreso borrado. ¡A empezar de nuevo con ganas! 💪");
@@ -3267,9 +3998,29 @@ function render() {
   if (!app) return;
   const r = route();
   if ("speechSynthesis" in window) speechSynthesis.cancel();
+  if (typeof Voz !== "undefined") Voz.detener();
 
   document.getElementById("navHome").classList.toggle("active", r.view === "home" || r.view === "level");
   document.getElementById("navDict").classList.toggle("active", r.view === "dict");
+
+  if (typeof Cuentas !== "undefined" && Cuentas.activo()) {
+    if (r.view === "login" || r.view === "registro") {
+      app.innerHTML = Cuentas.vista(r.view);
+      Cuentas.conectarVista(r.view);
+      updateGlobalProgress();
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (Cuentas.pideEntrar()) { location.hash = "#/login"; return; }
+  }
+
+  if (r.view === "speak") {
+    const found = findModule(r.id);
+    if (!found || !isModuleUnlocked(r.id) || typeof Voz === "undefined") { location.hash = "#/home"; return; }
+    Voz.iniciarPractica(found.level, found.module);
+    updateGlobalProgress();
+    return;
+  }
 
   if (r.view === "level") {
     const lv = COURSE.levels.find(function (l) { return l.id === r.id; });
@@ -3310,7 +4061,9 @@ function viewHome() {
   const current = currentLevelName();
   let html = "";
 
+  const quien = typeof Cuentas !== "undefined" ? Cuentas.nombre() : null;
   html += '<section class="hero">' +
+    (quien ? '<p class="hola">👋 Hola, ' + esc(quien) + "</p>" : "") +
     "<h2>⚡ De Ayudante a Foreman</h2>" +
     "<p>Aprende el inglés real de la obra eléctrica en EE.UU.: herramientas, seguridad, materiales, dispositivos y las frases para pedirlos y usarlos — con audio, imágenes y referencias al Código Eléctrico Nacional (NEC).</p>" +
     '<p style="margin-top:0.6rem"><b>Regla de la obra:</b> necesitas <b>100%</b> en el examen de cada módulo para desbloquear el siguiente. Igual que en el trabajo: se hace bien, o se vuelve a hacer.</p>' +
@@ -3390,6 +4143,9 @@ function viewModule(lv, m) {
     '<div class="mod-icon" style="width:52px;height:52px;background:var(--navy-800);border-radius:12px;display:grid;place-items:center;font-size:1.5rem">' + esc(m.icon) + "</div>" +
     "<h2>" + esc(m.title) + "<small>" + esc(m.en) + " · " + m.items.length + " términos</small></h2>" +
     (isPassed(m.id) ? '<span class="badge pass" style="font-size:0.85rem">✔ Aprobado</span>' : "") +
+    (typeof Voz !== "undefined" && Voz.disponible
+      ? '<span class="badge mic-badge" title="Términos que ya se te entienden al menos al 75%">🎤 ' + Voz.dominados(m) + "/" + m.items.length + " pronunciados</span>"
+      : "") +
     "</div>" +
     '<div class="desc">' + esc(m.desc) + "</div>" +
     (m.tip ? '<div class="tipbox"><span class="ico">💡</span><span>' + esc(m.tip) + "</span></div>" : "") +
@@ -3399,11 +4155,12 @@ function viewModule(lv, m) {
   html += '<div class="action-row">' +
     '<button class="btn ghost" onclick="location.hash=\'#/level/' + lv.id + '\'">← Volver</button>' +
     '<button class="btn dark" onclick="location.hash=\'#/practice/' + m.id + '\'">🎯 Practicar (sin calificación)</button>' +
+    '<button class="btn green mic-only" onclick="location.hash=\'#/speak/' + m.id + '\'">🎤 Pronunciación</button>' +
     '<button class="btn primary" onclick="location.hash=\'#/exam/' + m.id + '\'">📝 Examen — necesitas 100%</button>' +
     "</div>";
 
   html += '<div class="vocab-grid">';
-  m.items.forEach(function (it) { html += vocabCardHTML(it); });
+  m.items.forEach(function (it, i) { html += vocabCardHTML(it, m.id + ":" + i); });
   html += "</div>";
 
   html += '<div class="action-row" style="justify-content:center;margin-top:1.5rem">' +
@@ -3414,10 +4171,13 @@ function viewModule(lv, m) {
 
 let sayId = 0; /* ids únicos para el resaltado karaoke */
 
-function vocabCardHTML(it) {
+function vocabCardHTML(it, clave) {
   const idEn = "sayEn" + (++sayId);
   const idEs = "sayEs" + sayId;
   const idEx = "sayEx" + sayId;
+  const idRes = "micRes" + sayId;
+  const idExRes = "micExRes" + sayId;
+  const keyAttr = function (sufijo) { return clave ? ' data-key="' + esc(clave + sufijo) + '"' : ""; };
 
   let html = '<article class="vocab-card">';
   html += '<div class="vocab-main">' + iconHTML(it.icon) +
@@ -3431,14 +4191,18 @@ function vocabCardHTML(it) {
     '<button class="audio-btn" data-say="' + esc(speakableEn(it.en)) + '" data-lang="en" data-hl="#' + idEn + '">🔊 Inglés</button>' +
     '<button class="audio-btn drill" title="Lo dice despacio y luego a velocidad real" data-say="' + esc(speakableEn(it.en)) + '" data-lang="en" data-hl="#' + idEn + '" data-mode="drill">🐢→🐇 Lento y normal</button>' +
     '<button class="audio-btn" data-say="' + esc(speakableEs(it.es)) + '" data-lang="es" data-hl="#' + idEs + '">🔉 Español</button>' +
-    "</div>";
+    '<button class="audio-btn mic mic-only" title="Dilo en inglés y la app te dice si se entendió" data-mic="#' + idEn + '" data-res="#' + idRes + '" data-obj="' + esc(it.en) + '"' + keyAttr(":t") + ">🎤 Pronunciar</button>" +
+    "</div>" +
+    '<div class="mic-res" id="' + idRes + '"></div>';
 
   if (it.exEn) {
     html += '<div class="vocab-example">' +
       '<div class="en-ex">🇺🇸 <span id="' + idEx + '">' + esc(it.exEn) + "</span>" +
       '<button class="mini-audio" title="Escuchar ejemplo" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '">🔊</button>' +
-      '<button class="mini-audio" title="Lento y luego normal" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '" data-mode="drill">🐢</button></div>' +
+      '<button class="mini-audio" title="Lento y luego normal" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#' + idEx + '" data-mode="drill">🐢</button>' +
+      '<button class="mini-audio mic mic-only" title="Di la frase en inglés" data-mic="#' + idEx + '" data-res="#' + idExRes + '" data-obj="' + esc(it.exEn) + '" data-frase="1"' + keyAttr(":e") + ">🎤</button></div>" +
       '<div class="es-ex">🇲🇽 ' + esc(it.exEs || "") + "</div>" +
+      '<div class="mic-res" id="' + idExRes + '"></div>' +
       "</div>";
   }
   if (it.note) html += '<div class="vocab-note"><b>💬 Nota de obra:</b> ' + esc(it.note) + "</div>";
@@ -3782,6 +4546,515 @@ function renderDictList(query) {
   });
   list.innerHTML = html || '<p style="color:var(--ink-soft);padding:1rem">Sin resultados. Intenta con otra palabra.</p>';
 }
+
+</script>
+  <script>
+/* ============================================================
+   VOZ.JS — Reconocimiento de voz
+   Tú dices la palabra o la frase en inglés y la app te muestra
+   qué palabras se entendieron (verde) y cuáles no (rojo).
+   Usa el reconocedor del navegador (Chrome en Android, Safari en
+   iPhone). Necesita internet: el audio lo procesa el servidor.
+   ============================================================ */
+
+const Voz = (function () {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  const disponible = !!SR;
+  if (!disponible) document.documentElement.classList.add("no-mic");
+
+  /* ---------- Normalización: lo dicho y lo escrito a la misma forma ---------- */
+
+  const CONTRACCIONES = {
+    "i'm": "i am", "you're": "you are", "we're": "we are", "they're": "they are",
+    "it's": "it is", "that's": "that is", "what's": "what is", "where's": "where is",
+    "who's": "who is", "there's": "there is", "here's": "here is", "how's": "how is",
+    "he's": "he is", "she's": "she is", "let's": "let us",
+    "i'll": "i will", "you'll": "you will", "we'll": "we will", "it'll": "it will",
+    "i've": "i have", "you've": "you have", "we've": "we have", "i'd": "i would",
+    "don't": "do not", "doesn't": "does not", "didn't": "did not", "can't": "can not",
+    "won't": "will not", "isn't": "is not", "aren't": "are not", "wasn't": "was not",
+    "weren't": "were not", "shouldn't": "should not", "couldn't": "could not",
+    "wouldn't": "would not", "haven't": "have not", "hasn't": "has not"
+  };
+
+  const UNIDADES = {
+    zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+    nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15,
+    sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19
+  };
+  const DECENAS = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+  const FRACCIONES = { "1/2": " half ", "1/4": " quarter ", "3/4": " three quarter " };
+
+  /* "thirty five" -> "35",  "ten" -> "10": así da igual si se escribe o se dice */
+  function numeros(tk) {
+    const out = [];
+    for (let i = 0; i < tk.length; i++) {
+      const w = tk[i];
+      if (DECENAS[w] !== undefined) {
+        const u = UNIDADES[tk[i + 1]];
+        if (u !== undefined && u > 0 && u < 10) { out.push(String(DECENAS[w] + u)); i++; }
+        else out.push(String(DECENAS[w]));
+      } else if (UNIDADES[w] !== undefined) {
+        if (tk[i + 1] === "hundred") { out.push(String(UNIDADES[w] * 100)); i++; }
+        else out.push(String(UNIDADES[w]));
+      } else {
+        out.push(w);
+      }
+    }
+    return out;
+  }
+
+  /* El reconocedor a veces deletrea las siglas: "p d u" -> "pdu" */
+  function unirLetras(tk) {
+    const out = [];
+    let i = 0;
+    while (i < tk.length) {
+      if (/^[a-z]$/.test(tk[i]) && /^[a-z]$/.test(tk[i + 1] || "")) {
+        let w = "";
+        while (i < tk.length && /^[a-z]$/.test(tk[i])) { w += tk[i]; i++; }
+        out.push(w);
+      } else {
+        out.push(tk[i]);
+        i++;
+      }
+    }
+    return out;
+  }
+
+  function tokens(texto) {
+    let s = String(texto || "").toLowerCase();
+    s = s.replace(/\(.*?\)/g, " ");
+    s = s.replace(/[‘’ʼ`]/g, "'");
+    s = s.replace(/[–—]/g, " ");
+    s = s.replace(/\$\s?(\d+)/g, " $1 dollars ");
+    s = s.replace(/(\d+)\s*%/g, " $1 percent ");
+    s = s.replace(/(\d+)\s*°/g, " $1 degree ");
+    s = s.replace(/\b(\d)\/(\d)\b/g, function (m) { return FRACCIONES[m] || " " + m.replace("/", " ") + " "; });
+    s = s.replace(/(\d)\s*"/g, "$1 inch ");
+    s = s.replace(/&/g, " and ");
+    s = s.replace(/\+/g, " plus ");
+    s = s.replace(/[a-z]+'[a-z]+/g, function (w) { return CONTRACCIONES[w] || w; });
+    s = s.replace(/'/g, "");
+    s = s.replace(/[^a-z0-9]+/g, " ").trim();
+    if (!s) return [];
+    let tk = s.split(" ").map(function (w) {
+      return w === "quarters" ? "quarter" : w === "halves" ? "half" : w;
+    });
+    tk = numeros(tk);
+    tk = unirLetras(tk);
+    return tk;
+  }
+
+  /* ---------- Comparación palabra por palabra ---------- */
+
+  function lev(a, b) {
+    if (a === b) return 0;
+    const n = b.length;
+    if (!a.length) return n;
+    if (!n) return a.length;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= a.length; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= n; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      }
+      const t = prev; prev = cur; cur = t;
+    }
+    return prev[n];
+  }
+
+  /* Tolera un error pequeño en palabras largas ("screw"/"screws"),
+     pero las cortas tienen que coincidir exacto: "wire" y "wine"
+     son palabras distintas. Los números, siempre exactos. */
+  function parecido(a, b) {
+    if (a === b) return true;
+    if (/\d/.test(a) || /\d/.test(b)) return false;
+    const L = Math.max(a.length, b.length);
+    const permitidos = L <= 4 ? 0 : L <= 7 ? 1 : 2;
+    return permitidos > 0 && lev(a, b) <= permitidos;
+  }
+
+  /* Alinea lo esperado con lo oído respetando el orden (subsecuencia común más larga) */
+  function alinear(obj, oido) {
+    const n = obj.length, m = oido.length;
+    const dp = [];
+    for (let i = 0; i <= n; i++) dp.push(new Array(m + 1).fill(0));
+    for (let i = n - 1; i >= 0; i--) {
+      for (let j = m - 1; j >= 0; j--) {
+        dp[i][j] = parecido(obj[i], oido[j]) ? 1 + dp[i + 1][j + 1] : Math.max(dp[i + 1][j], dp[i][j + 1]);
+      }
+    }
+    const ok = new Array(n).fill(false);
+    let i = 0, j = 0;
+    while (i < n && j < m) {
+      if (parecido(obj[i], oido[j]) && dp[i][j] === 1 + dp[i + 1][j + 1]) { ok[i] = true; i++; j++; }
+      else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+      else j++;
+    }
+    return ok;
+  }
+
+  function puntuar(obj, oido) {
+    let ok = alinear(obj, oido);
+    let score = ok.filter(Boolean).length / obj.length;
+    /* Términos cortos dichos "pegados" o separados: "channel locks" = "channellocks" */
+    if (score < 1 && obj.length <= 3 && oido.length) {
+      const a = obj.join(""), b = oido.join("");
+      if (a.length >= 4 && 1 - lev(a, b) / Math.max(a.length, b.length) >= 0.85) {
+        ok = obj.map(function () { return true; });
+        score = 1;
+      }
+    }
+    return { score: score, ok: ok };
+  }
+
+  /* Los términos con "/" aceptan cualquiera de sus variantes,
+     igual que en el examen. Los ejemplos se evalúan completos. */
+  function variantes(objetivo, dividir) {
+    if (!dividir) return [String(objetivo)];
+    return String(objetivo).replace(/\(.*?\)/g, "").split("/")
+      .map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  function evaluar(objetivo, alternativas, dividir) {
+    let mejor = { score: 0, obj: [], ok: [], oido: alternativas[0] || "" };
+    let hubo = false;
+    variantes(objetivo, dividir).forEach(function (v) {
+      const obj = tokens(v);
+      if (!obj.length) return;
+      alternativas.forEach(function (alt) {
+        const r = puntuar(obj, tokens(alt));
+        if (!hubo || r.score > mejor.score) {
+          mejor = { score: r.score, obj: obj, ok: r.ok, oido: alt };
+          hubo = true;
+        }
+      });
+    });
+    return mejor;
+  }
+
+  /* ---------- Pintar el texto: verde se entendió, rojo no ---------- */
+
+  function limpiarColores(el) {
+    if (!el) return;
+    Array.prototype.forEach.call(el.querySelectorAll(".w"), function (s) {
+      s.classList.remove("dicho-ok", "dicho-mal");
+    });
+  }
+
+  function pintar(el, r) {
+    const spans = wrapWords(el);
+    if (!spans) return;
+    const bienCnt = {}, malCnt = {};
+    r.obj.forEach(function (t, i) {
+      const d = r.ok[i] ? bienCnt : malCnt;
+      d[t] = (d[t] || 0) + 1;
+    });
+    Array.prototype.forEach.call(spans, function (s) {
+      s.classList.remove("dicho-ok", "dicho-mal");
+      let bien = false, mal = false;
+      tokens(s.textContent).forEach(function (t) {
+        if (bienCnt[t] > 0) { bienCnt[t]--; bien = true; }
+        else if (malCnt[t] > 0) { malCnt[t]--; mal = true; }
+      });
+      if (mal) s.classList.add("dicho-mal");
+      else if (bien) s.classList.add("dicho-ok");
+    });
+  }
+
+  /* ---------- Escuchar ---------- */
+
+  let escuchando = null;   // reconocimiento en curso
+
+  function mostrar(res, clase, html) {
+    if (!res) return;
+    res.className = "mic-res show " + clase;
+    res.innerHTML = html;
+  }
+
+  function mensajeError(e) {
+    if (e === "not-allowed" || e === "service-not-allowed") {
+      return "🔒 La app no tiene permiso para usar el micrófono. Actívalo en los ajustes del navegador para este sitio y vuelve a intentarlo.";
+    }
+    if (e === "audio-capture") return "🎤 No se encontró micrófono en este aparato.";
+    if (e === "network") return "📶 El reconocimiento de voz necesita internet. Revisa tu conexión.";
+    if (e === "language-not-supported") return "Este navegador no reconoce inglés por voz.";
+    return "🎤 No se pudo escuchar (" + esc(e) + "). Intenta otra vez.";
+  }
+
+  function mostrarResultado(res, r) {
+    const pct = Math.round(r.score * 100);
+    let clase, titulo;
+    if (pct === 100) { clase = "good"; titulo = "✅ ¡Perfecto! Se entendió todo."; }
+    else if (pct >= 75) { clase = "ok"; titulo = "👍 ¡Bien! Casi todo se entendió."; }
+    else { clase = "bad"; titulo = "🔁 Otra vez. Escúchalo lento y repítelo."; }
+    mostrar(res, clase,
+      '<span class="mic-pct">' + pct + "%</span><b>" + titulo + "</b>" +
+      '<div class="mic-oido">Escuché: «' + esc(r.oido) + "»</div>" +
+      (pct < 100 ? '<div class="mic-tip">Las palabras en <span class="dicho-mal-demo">rojo</span> no se entendieron.</div>' : ""));
+  }
+
+  function registrar(clave, score) {
+    if (!clave) return;
+    const pct = Math.round(score * 100);
+    state.speech = state.speech || {};
+    if (!(state.speech[clave] >= pct)) {
+      state.speech[clave] = pct;
+      saveState();
+      refrescarContador();
+    }
+  }
+
+  /* El contador "🎤 X/N pronunciados" del módulo se actualiza al momento */
+  function refrescarContador() {
+    const badge = document.querySelector(".mic-badge");
+    const r = route();
+    if (!badge || r.view !== "module") return;
+    const f = findModule(r.id);
+    if (f) badge.textContent = "🎤 " + dominados(f.module) + "/" + f.module.items.length + " pronunciados";
+  }
+
+  function detener() {
+    if (!escuchando) return;
+    const s = escuchando;
+    escuchando = null;
+    s.cancelado = true;
+    try { s.rec.abort(); } catch (e) { /* ya terminó */ }
+    s.boton.classList.remove("escuchando");
+    s.boton.innerHTML = s.textoBoton;
+  }
+
+  function escuchar(b) {
+    const el = document.querySelector(b.getAttribute("data-mic"));
+    const res = document.querySelector(b.getAttribute("data-res"));
+    const objetivo = b.getAttribute("data-obj") || "";
+    const dividir = b.getAttribute("data-frase") !== "1";
+    const clave = b.getAttribute("data-key");
+
+    if (!disponible) {
+      toast("🎤 Este navegador no reconoce voz. Usa Chrome en Android o Safari en iPhone.", 4000);
+      return;
+    }
+    if (navigator.onLine === false) {
+      toast("📶 Para practicar pronunciación necesitas internet.", 3500);
+      return;
+    }
+
+    detener();
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    clearHighlight();
+    limpiarColores(el);
+
+    const rec = new SR();
+    rec.lang = "en-US";
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.maxAlternatives = 5;
+
+    const s = { rec: rec, boton: b, textoBoton: b.innerHTML, finales: [], error: null, cancelado: false };
+    escuchando = s;
+    b.classList.add("escuchando");
+    b.innerHTML = b.classList.contains("mini-audio") ? "⏹" : "⏹ Detener";
+    const meta = dividir ? speakableEn(objetivo).split(".")[0] : objetivo;
+    mostrar(res, "listening", "🎙️ Te escucho… di en inglés: <b>" + esc(meta) + "</b>");
+
+    rec.onresult = function (e) {
+      let parcial = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) {
+          const alts = [];
+          for (let k = 0; k < r.length; k++) alts.push(r[k].transcript);
+          s.finales.push(alts);
+        } else {
+          parcial += r[0].transcript;
+        }
+      }
+      if (parcial && !s.cancelado) mostrar(res, "listening", "🎙️ " + esc(parcial) + "…");
+    };
+    rec.onerror = function (e) { s.error = e.error; };
+    rec.onend = function () {
+      if (s.cancelado) return;
+      if (escuchando === s) escuchando = null;
+      b.classList.remove("escuchando");
+      b.innerHTML = s.textoBoton;
+
+      if (s.error && s.error !== "no-speech" && s.error !== "aborted") {
+        mostrar(res, "bad", mensajeError(s.error));
+        return;
+      }
+      let alternativas = [];
+      if (s.finales.length === 1) alternativas = s.finales[0];
+      else if (s.finales.length > 1) {
+        alternativas.push(s.finales.map(function (a) { return a[0]; }).join(" "));
+        s.finales.forEach(function (a) { alternativas = alternativas.concat(a); });
+      }
+      if (!alternativas.length) {
+        mostrar(res, "bad", "🔇 No te escuché. Toca 🎤 y habla cerca del micrófono.");
+        return;
+      }
+      const r = evaluar(objetivo, alternativas, dividir);
+      if (el) pintar(el, r);
+      mostrarResultado(res, r);
+      registrar(clave, r.score);
+      if (practica && clave === practica.claveActual) {
+        const pct = Math.round(r.score * 100);
+        if (practica.mejores[practica.i] === null || pct > practica.mejores[practica.i]) practica.mejores[practica.i] = pct;
+      }
+    };
+
+    try {
+      rec.start();
+    } catch (err) {
+      escuchando = null;
+      b.classList.remove("escuchando");
+      b.innerHTML = s.textoBoton;
+      mostrar(res, "bad", "🎤 No se pudo iniciar el micrófono. Intenta otra vez.");
+    }
+  }
+
+  /* Cualquier botón con data-mic escucha al tocarlo; si ya está
+     escuchando, el segundo toque termina y califica. */
+  document.addEventListener("click", function (ev) {
+    const b = ev.target.closest("[data-mic]");
+    if (!b) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (escuchando && escuchando.boton === b) {
+      try { escuchando.rec.stop(); } catch (e) { /* ya terminó */ }
+      return;
+    }
+    escuchar(b);
+  });
+
+  /* ---------- Modo práctica: término por término ---------- */
+
+  let practica = null;
+
+  function dominados(m) {
+    const sp = state.speech || {};
+    let n = 0;
+    m.items.forEach(function (it, i) { if (sp[m.id + ":" + i + ":t"] >= 75) n++; });
+    return n;
+  }
+
+  function iniciarPractica(lv, m) {
+    if (!disponible) {
+      document.getElementById("app").innerHTML =
+        '<div class="result-card"><div class="big-emoji">🎤</div><h2>Tu navegador no reconoce voz</h2>' +
+        "<p>Para practicar pronunciación abre la app en <b>Chrome</b> (Android) o <b>Safari</b> (iPhone), con internet.</p>" +
+        '<div class="result-actions"><button class="btn ghost" onclick="location.hash=\'#/module/' + m.id + '\'">← Volver al módulo</button></div></div>';
+      return;
+    }
+    practica = { lv: lv, m: m, i: 0, mejores: m.items.map(function () { return null; }), claveActual: null };
+    pintarPractica();
+  }
+
+  function pintarPractica() {
+    const p = practica, m = p.m, it = m.items[p.i], n = m.items.length;
+    const clave = m.id + ":" + p.i;
+    p.claveActual = clave + ":t";
+    const pct = Math.round((p.i / n) * 100);
+    const decir = speakableEn(it.en);
+
+    let html = '<div class="quiz-wrap">' +
+      '<div class="quiz-top">' +
+      '<span class="qcount">🎤 Pronunciación · ' + (p.i + 1) + "/" + n + "</span>" +
+      '<div class="qbar"><span style="width:' + pct + '%"></span></div>' +
+      '<button class="btn ghost quit" onclick="location.hash=\'#/module/' + m.id + '\'">✕ Salir</button>' +
+      "</div>" +
+      '<div class="question-card speak-card">' +
+      '<div class="q-kind">🗣️ Escucha y repite en voz alta</div>' +
+      '<div class="speak-es">' + esc(it.es) + "</div>" +
+      '<div class="q-prompt"><span id="spkEn">' + esc(it.en) + "</span></div>" +
+      '<div class="q-sub">🗣 ' + esc(it.pron) + "</div>" +
+      '<div class="speak-audio">' +
+      '<button class="audio-btn" data-say="' + esc(decir) + '" data-lang="en" data-hl="#spkEn">🔊 Escuchar</button>' +
+      '<button class="audio-btn drill" data-say="' + esc(decir) + '" data-lang="en" data-hl="#spkEn" data-mode="drill">🐢→🐇 Lento y normal</button>' +
+      "</div>" +
+      '<div class="speak-mic"><button class="btn primary big" data-mic="#spkEn" data-res="#spkRes" data-obj="' + esc(it.en) + '" data-key="' + clave + ':t">🎤 Dilo en inglés</button></div>' +
+      '<div class="mic-res" id="spkRes"></div>';
+
+    if (it.exEn) {
+      html += '<div class="speak-ex">' +
+        '<div class="q-kind">💬 Ahora en una frase</div>' +
+        '<div class="en-ex">🇺🇸 <span id="spkEx">' + esc(it.exEn) + "</span> " +
+        '<button class="mini-audio" title="Escuchar" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#spkEx">🔊</button>' +
+        '<button class="mini-audio" title="Lento y luego normal" data-say="' + esc(it.exEn) + '" data-lang="en" data-hl="#spkEx" data-mode="drill">🐢</button></div>' +
+        '<div class="es-ex">🇲🇽 ' + esc(it.exEs || "") + "</div>" +
+        '<button class="audio-btn mic" data-mic="#spkEx" data-res="#spkExRes" data-obj="' + esc(it.exEn) + '" data-frase="1" data-key="' + clave + ':e">🎤 Decir la frase</button>' +
+        '<div class="mic-res" id="spkExRes"></div>' +
+        "</div>";
+    }
+
+    html += '<div class="speak-nav">' +
+      (p.i > 0 ? '<button class="btn ghost" id="spkPrev">← Anterior</button>' : "<span></span>") +
+      '<button class="btn dark" id="spkNext">' + (p.i === n - 1 ? "Ver resumen →" : "Siguiente →") + "</button>" +
+      "</div></div></div>";
+
+    document.getElementById("app").innerHTML = html;
+    window.scrollTo(0, 0);
+
+    document.getElementById("spkNext").addEventListener("click", function () {
+      detener();
+      if (p.i < n - 1) { p.i++; pintarPractica(); }
+      else resumenPractica();
+    });
+    const prev = document.getElementById("spkPrev");
+    if (prev) prev.addEventListener("click", function () { detener(); p.i--; pintarPractica(); });
+
+    setTimeout(function () {
+      if (practica === p && p.claveActual === clave + ":t" && !escuchando) speak(decir, "en", document.getElementById("spkEn"));
+    }, 350);
+  }
+
+  function resumenPractica() {
+    const p = practica, m = p.m;
+    const bien = p.mejores.filter(function (x) { return x !== null && x >= 75; }).length;
+    const faltan = m.items
+      .map(function (it, i) { return { it: it, s: p.mejores[i] }; })
+      .filter(function (o) { return o.s === null || o.s < 75; });
+    const todo = bien === m.items.length;
+
+    let lista = "";
+    if (faltan.length) {
+      lista = '<div class="missed-list"><h4>📌 Practica más estos:</h4>';
+      faltan.forEach(function (o) {
+        lista += '<div class="missed-item"><span class="en">' + esc(o.it.en) +
+          ' <button class="mini-audio" data-say="' + esc(speakableEn(o.it.en)) + '" data-lang="en">🔊</button></span>' +
+          '<span class="es">' + (o.s === null ? "sin intentar" : o.s + "%") + "</span></div>";
+      });
+      lista += "</div>";
+    }
+
+    document.getElementById("app").innerHTML =
+      '<div class="result-card">' +
+      '<div class="big-emoji">' + (todo ? "🏆" : "🎤") + "</div>" +
+      "<h2>Práctica de pronunciación terminada</h2>" +
+      '<div class="score ' + (todo ? "pass" : "") + '">' + bien + "/" + m.items.length + "</div>" +
+      "<p>" + (todo
+        ? "¡Se te entendió todo el módulo! Así te van a entender en la obra."
+        : "Términos que se entendieron al menos al 75%. Repite los que faltan: escúchalos lento y dilos en voz alta.") + "</p>" +
+      lista +
+      '<div class="result-actions">' +
+      '<button class="btn ghost" onclick="location.hash=\'#/module/' + m.id + '\'">📚 Volver al módulo</button>' +
+      '<button class="btn primary" id="spkOtra">🔄 Practicar de nuevo</button>' +
+      "</div></div>";
+    window.scrollTo(0, 0);
+    document.getElementById("spkOtra").addEventListener("click", function () { iniciarPractica(p.lv, m); });
+  }
+
+  return {
+    disponible: disponible,
+    detener: detener,
+    dominados: dominados,
+    iniciarPractica: iniciarPractica,
+    /* para pruebas */
+    _tokens: tokens,
+    _evaluar: evaluar
+  };
+})();
 
 </script>
 </body>

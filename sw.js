@@ -7,7 +7,7 @@
    instantáneo. Al cambiar contenido hay que subir el número de CACHE.
    ============================================================ */
 
-const CACHE = "ingles-tecnico-v9";
+const CACHE = "ingles-tecnico-v10";
 
 const ASSETS = [
   "./",
@@ -15,7 +15,10 @@ const ASSETS = [
   "./css/styles.css",
   "./js/icons.js",
   "./js/data.js",
+  "./js/firebase-config.js",
+  "./js/cuentas.js",
   "./js/app.js",
+  "./js/voz.js",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

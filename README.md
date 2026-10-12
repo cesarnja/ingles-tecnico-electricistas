@@ -50,7 +50,9 @@ Manda `InglesTecnico-1archivo.html` a tu teléfono (WhatsApp contigo mismo, corr
 
 1. **Estudia** cada módulo: imagen + español + inglés + pronunciación escrita + audio 🔊 + oración de ejemplo + notas de obra y de NEC. Al tocar 🔊 **se va iluminando cada palabra mientras se pronuncia**, como karaoke: así relacionas el sonido con la palabra escrita.
    - El botón **🐢→🐇 Lento y normal** repite la frase **dos veces**: primero muy despacio (0.55×) para que tu oído separe cada palabra, y luego a velocidad real (1×) para acostumbrarte a como hablan en la obra. Repite en voz alta las dos veces — esa es la técnica que más rápido suelta la lengua.
+   - El botón **🎤 Pronunciar** te escucha: dices la palabra o la frase en inglés y la app pinta en **verde** las palabras que se entendieron y en **rojo** las que no, con tu porcentaje. También acepta números dichos con letras ("ten" = 10), siglas deletreadas ("P D U") y contracciones ("I'm" = "I am"). Necesita internet y permiso del micrófono; funciona en Chrome (Android) y Safari (iPhone).
 2. **Practica** sin calificación las veces que quieras (8 preguntas al azar).
+   - **🎤 Pronunciación** te lleva término por término: escuchas, repites, y al final ves cuáles ya se te entienden y cuáles hay que practicar más. Cada módulo muestra cuántos términos ya pronuncias bien.
 3. **Examen**: cubre TODOS los términos del módulo con 4 tipos de pregunta:
    - 🇲🇽→🇺🇸 elegir la palabra en inglés
    - 🇺🇸→🇲🇽 elegir el significado en español
@@ -61,7 +63,15 @@ Manda `InglesTecnico-1archivo.html` a tu teléfono (WhatsApp contigo mismo, corr
 
 > **Excepción a la regla:** la sección **⚡ Conseguir trabajo** está siempre abierta desde el primer día. Buscar trabajo no espera a que apruebes módulos — si mañana te llama un reclutador, necesitas esas frases hoy.
 
-Tu progreso se guarda solo, en tu navegador. En ⚙️ Ajustes puedes cambiar la velocidad de la voz en inglés (empieza en 0.9× y súbela conforme mejores tu oído) o borrar el progreso.
+Tu progreso se guarda solo, en tu navegador. En ⚙️ Ajustes puedes cambiar la velocidad de la voz en inglés (empieza en 0.9× y súbela conforme mejores tu oído), borrar el progreso, o **📤 compartir la app** por WhatsApp o mensaje.
+
+### 👤 Cuentas de usuario
+
+Cuando el proyecto de Firebase está configurado (`js/firebase-config.js`), cada persona entra con **su propio usuario y clave** — sin necesidad de correo. Su avance se guarda en la nube y la sigue a cualquier teléfono; varias personas pueden usar el mismo teléfono sin mezclar su progreso. Sin internet se sigue estudiando: el avance se guarda en el teléfono y se sube solo cuando vuelve la señal.
+
+Si el teléfono ya tenía avance sin cuenta, al crear la cuenta la app pregunta si quieres pasarlo. Como no se usa correo, **la clave no se puede recuperar sola**: anótala. Desde Ajustes se puede cambiar.
+
+Mientras `firebase-config.js` esté en `null`, la app funciona como siempre, sin cuentas.
 
 ### 📖 Diccionario
 
@@ -86,7 +96,10 @@ Ingles tecnico/
 ├── css/styles.css              ← diseño visual
 ├── js/data.js                  ← vocabulario del curso (391 términos y frases)
 ├── js/icons.js                 ← imágenes SVG ilustrativas
-└── js/app.js                   ← lógica: navegación, audio, exámenes, progreso
+├── js/firebase-config.js       ← datos del proyecto de Firebase (null = sin cuentas)
+├── js/cuentas.js               ← usuarios con clave y avance en la nube
+├── js/app.js                   ← lógica: navegación, audio, exámenes, progreso
+└── js/voz.js                   ← reconocimiento de voz: pronunciar y calificar
 ```
 
 > Si editas el vocabulario, regenera la versión de un archivo con: `python build_single_file.py` (los iconos se regeneran con `python gen_icons.py`).
@@ -107,7 +120,7 @@ Guarda el archivo y recarga la página: el nuevo término entra automático al m
 ## 🔮 Ideas para las siguientes versiones
 
 - Repaso espaciado (los términos fallados regresan a los 1, 3 y 7 días)
-- Reconocimiento de voz: pronuncia tú y la app te evalúa
+- Simulador de llamada: el reclutador pregunta y tú respondes con tu voz
 - Módulos de media tensión (15kV/35kV) y certificación 3M
 - Fotos reales de tus propias herramientas dentro de las tarjetas
 - Más niveles: General Foreman, Superintendent, examen de licencia (Journeyman test)
