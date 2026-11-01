@@ -7,7 +7,7 @@
    instantáneo. Al cambiar contenido hay que subir el número de CACHE.
    ============================================================ */
 
-const CACHE = "ingles-tecnico-v10";
+const CACHE = "ingles-tecnico-v11";
 
 const ASSETS = [
   "./",
